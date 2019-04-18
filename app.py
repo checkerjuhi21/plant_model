@@ -65,6 +65,10 @@ def get_user():
     e = model_stra_pota()
     return jsonify(e)
 
+@app.route('/', methods=['GET'])
+def home():
+    print("loaded")
+return "Welcome to My API"
 
 
 if __name__ == '__main__':
