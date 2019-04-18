@@ -1,42 +1,26 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Apr 18 10:10:39 2019
-
-@author: juhichecker
-"""
-
 from flask import Flask, request, jsonify
-#from flask_marshmallow import Marshmallow
 import os
+import numpy as np
+import cv2
 from imageai.Prediction.Custom import CustomImagePrediction
 
-UPLOAD_FOLDER = '/Users/juhichecker/Desktop/Deep'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
-
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-
 
 image1 = None
 
-def model_stra_pota():
-
-    execution_path = '/Users/juhichecker/Deep'
-    test_path = '/Users/juhichecker/Deep/'
-
+def model_stra_pota(img):
     prediction = CustomImagePrediction()
 
     prediction.setModelTypeAsInceptionV3()
 
-    prediction.setModelPath(os.path.join(execution_path, "epoch_44th.h5"))
+    prediction.setModelPath("epoch_44th.h5")
 
-    prediction.setJsonPath(os.path.join(execution_path, "model_class.json"))
+    prediction.setJsonPath("model_class.json")
 
     prediction.loadModel(num_objects=5)
 
-    predictions, probabilities = prediction.predictImage(os.path.join('/Users/juhichecker/Deep/', 'image.jpg'), result_count=1)
+    predictions, probabilities = prediction.predictImage(img, result_count=1,input_type="array")
     print (predictions, probabilities)
     predictions = predictions[0]
     probabilities = probabilities[0]
@@ -47,15 +31,14 @@ def model_stra_pota():
 
     return (e)
 
-
-
-# endpoint to create new user
-@app.route("/user", methods=["POST"])
+#endpoint to predict disease 
+@app.route("/predict", methods=["POST"])
 def add_user():
-    file = request.files['image']
-    file.save("/Users/juhichecker/Deep/image.jpg")
-    
-    return "sd"
+    file    = request.files['image'].read() 
+    npimg   = np.fromstring(file,np.uint8)
+    img     = cv2.imdecode(npimg,1) 
+    ans     = model_stra_pota(img)     
+    return jsonify(ans)
 
 
 # endpoint to show all users
