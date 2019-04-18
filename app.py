@@ -68,7 +68,7 @@ def get_user():
 @app.route('/', methods=['GET'])
 def home():
     print("loaded")
-return "Welcome to My API"
+    return "Welcome to My API"
 
 
 if __name__ == '__main__':
