@@ -8,18 +8,20 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 app = Flask(__name__)
 image1 = None
 
+prediction = CustomImagePrediction()
+
+prediction.setModelTypeAsInceptionV3()
+
+prediction.setModelPath("model_ex-053_acc-0.997352.h5")
+
+prediction.setJsonPath("model_class.json")
+
+
+
 def model_stra_pota(img):
-    prediction = CustomImagePrediction()
-
-    prediction.setModelTypeAsInceptionV3()
-
-    prediction.setModelPath("model_ex-053_acc-0.997352.h5")
-
-    prediction.setJsonPath("model_class.json")
-
+    
     prediction.loadModel(num_objects=31)
-
-    predictions, probabilities = prediction.predictImage(img, result_count=1,input_type="array")
+    predictions, probabilities = prediction.predictImage('img.jpg', result_count=1)
     print (predictions, probabilities)
     predictions = predictions[0]
     probabilities = probabilities[0]
@@ -27,23 +29,24 @@ def model_stra_pota(img):
     #print (e)
     #for eachPrediction, eachProbability in zip(predictions, probabilities):
     #    print(eachPrediction + " : " + eachProbability)
-
+    
     return (e)
 
-#endpoint to predict disease 
+#endpoint to predict disease
 @app.route("/predict", methods=["POST"])
 def add_user():
-    file    = request.files['image'].read() 
+    file    = request.files['image'].read()
     npimg   = np.fromstring(file,np.uint8)
-    img     = cv2.imdecode(npimg,1) 
-    ans     = model_stra_pota(img)     
+    img     = cv2.imdecode(npimg,1)
+    cv2.imwrite('img.jpg',img )
+    ans     = model_stra_pota(img)
     return jsonify(ans)
 
 
 # endpoint to show all users
 @app.route("/user", methods=["GET"])
 def get_user():
-
+    
     e = model_stra_pota()
     return jsonify(e)
 
