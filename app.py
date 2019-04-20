@@ -6,7 +6,6 @@ from imageai.Prediction.Custom import CustomImagePrediction
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 app = Flask(__name__)
-
 image1 = None
 
 def model_stra_pota(img):
@@ -14,7 +13,7 @@ def model_stra_pota(img):
 
     prediction.setModelTypeAsInceptionV3()
 
-    prediction.setModelPath("epoch_44th.h5")
+    prediction.setModelPath("model_ex-053_acc-0.997352.h5")
 
     prediction.setJsonPath("model_class.json")
 

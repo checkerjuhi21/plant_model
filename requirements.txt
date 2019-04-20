@@ -1,6 +1,5 @@
 absl-py==0.7.1
 astor==0.7.1
-certifi==2018.8.24
 Click==7.0
 cycler==0.10.0
 Flask==1.0.2
