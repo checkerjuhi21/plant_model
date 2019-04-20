@@ -17,7 +17,7 @@ def model_stra_pota(img):
 
     prediction.setJsonPath("model_class.json")
 
-    prediction.loadModel(num_objects=5)
+    prediction.loadModel(num_objects=31)
 
     predictions, probabilities = prediction.predictImage(img, result_count=1,input_type="array")
     print (predictions, probabilities)
