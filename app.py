@@ -25,12 +25,13 @@ def model_stra_pota(img):
     print (predictions, probabilities)
     predictions = predictions[0]
     probabilities = probabilities[0]
-    e = {predictions:probabilities}
+    ans={"pred":predictions,"prob":probabilities}
+
+    #e = {predictions:probabilities}
     #print (e)
     #for eachPrediction, eachProbability in zip(predictions, probabilities):
     #    print(eachPrediction + " : " + eachProbability)
-    
-    return (e)
+    return (ans)
 
 #endpoint to predict disease
 @app.route("/predict", methods=["POST"])
@@ -43,8 +44,8 @@ def add_user():
     return jsonify(ans)
 
 
-# endpoint to show all users
-@app.route("/user", methods=["GET"])
+# endpoint to show all diseases
+@app.route("/diseases", methods=["GET"])
 def get_user():
     
     e = model_stra_pota()
