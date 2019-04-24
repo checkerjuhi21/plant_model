@@ -18,7 +18,7 @@ prediction.setJsonPath("model_class.json")
 
 
 
-def model_stra_pota(img):
+def model_stra_pota():
     
     prediction.loadModel(num_objects=31)
     predictions, probabilities = prediction.predictImage('img.jpg', result_count=1)
@@ -40,16 +40,8 @@ def add_user():
     npimg   = np.fromstring(file,np.uint8)
     img     = cv2.imdecode(npimg,1)
     cv2.imwrite('img.jpg',img )
-    ans     = model_stra_pota(img)
+    ans     = model_stra_pota()
     return jsonify(ans)
-
-
-# endpoint to show all diseases
-@app.route("/diseases", methods=["GET"])
-def get_user():
-    
-    e = model_stra_pota()
-    return jsonify(e)
 
 @app.route('/', methods=['GET'])
 def home():
